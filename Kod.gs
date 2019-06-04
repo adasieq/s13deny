@@ -73,7 +73,7 @@ function generate_cards(only_with_content, range_from, range_to, empty_template)
 function dialog() {
   var active_sheet_name = source.getActiveSheet().getSheetName()
   var html = HtmlService.createTemplateFromFile("dialog.tpl")
-  SpreadsheetApp.getUi().showModalDialog(html.evaluate().setWidth(400).setHeight(355), 'Drukuj ' + active_sheet_name)
+  SpreadsheetApp.getUi().showModalDialog(html.evaluate().setWidth(400).setHeight(335), 'Drukuj ' + active_sheet_name)
 }
 
 function include(File) {
