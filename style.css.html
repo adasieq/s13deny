@@ -1,0 +1,57 @@
+<style>
+
+@media print {
+  @page {
+  margin-top: 1cm;
+  margin-bottom: 1cm;
+  margin-left: 0.7cm;
+  margin-right: 0.4cm;
+  width: 100%;
+  }
+  
+
+table { page-break-inside:avoid }
+tr    { page-break-inside:avoid; page-break-after:auto }
+
+}
+
+table {
+  width: 370px;
+}
+
+table, th, thead, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin-bottom: 0.5px;
+  margin-right: 0.5px;
+  margin-top: 0.5px;
+}
+
+th{
+    text-align: center;
+}
+
+th.title {
+  font-size: 110%;
+}
+
+th.address, th.date {
+  font-size: 80%;
+}
+
+td.date, th.date {
+  width: 85px;
+  height: 23px;
+  text-align: center;
+}
+
+td.address, th.address {
+  width: 260px;
+  padding-left: 4px;
+}
+
+table.second_column {
+    float: left;
+}
+
+</style>

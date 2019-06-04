@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    
+    <script>
+      
+      function showhide_range() {
+        if ($("#set_range").is(":visible"))
+          $("#set_range").hide();
+        else
+          $("#set_range").show();
+      }
+      
+      function onSuccess(obj) {
+          var newWin = open('url');
+          newWin.document.write(obj);
+      }
+
+      function onFailure(obj) {
+          $("div#messages").html(obj)
+      }
+
+     function generate_report() {
+          $("div#messages").html("")
+          var range_from = null
+          var range_to = null
+          
+          if ($("#set_range").is(":visible")) {
+            range_from = $("input#range_from").val()
+            range_to = $("input#range_to").val()
+            if ((!range_from || ! range_to)) {
+                alert("Złe dane !!!")
+                return false
+            }
+          } else {
+            range_from = null
+            range_to = null
+          }
+
+          var only_with_content = $("input[name='only_with_content']:checked").val();
+          var empty_template = $("input[name='empty_template']:checked").val();
+          google.script.run.withSuccessHandler(onSuccess).withFailureHandler(onFailure).generate_cards(only_with_content, range_from, range_to, empty_template);
+     }
+    </script>
+  </head>
+
+  <body>
+      <iframe id="download" width="1" height="1" style="display:none"></iframe>
+      <iframe src="" name="content_iframe" style="display:none" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads-without-user-activation allow-modals"></iframe>
+       <div class="center-align">
+        <div class="progress" style="width:70%;margin-left:auto;margin-right:auto;display:none" id="preloader">
+          <div class="indeterminate"></div>
+        </div>
+      </div>
+      <div class="" style="margin-top: 25px;">
+      <p>
+      Domyślnie drukowane są karty dla wszytkich terenów, nawet tych które nie mają żadnych zapisków.
+      </p>
+      <div class="row">
+        <p>
+        <label>
+          <input type="checkbox" name="only_with_content" value="print">
+          <span>Drukuj tylko te tereny, które mają wpisy</span>
+        </label>
+        </p>
+        <p>
+        <label>
+          <input type="checkbox" name="print_range" value="range" onclick="showhide_range();">
+          <span>Wydrukuj zakres</span>
+        </label>
+        </p>
+        <div style="display:none;" id="set_range">
+          <div class="col s2">
+            <input type="text" name="range_from" id="range_from" placeholder="od">
+          </div>
+          <div class="col s2">
+            <input type="text" name="range_to" id="range_to" placeholder="do">
+          </div>
+          <p>
+            <label>
+              <input type="checkbox" name="empty_template" value="empty">
+              <span>Pusty szablon</span>
+            </label>
+          </p>
+          </div>
+      </div>
+      <div class="row center-align">
+        <a onclick="generate_report();" class="waves-effect waves-light btn">Drukuj</a>
+        <div id="messages" style="margin-top:10px; color:red"></div>
+      </div>
+</div>
+  </body>
+</html>
+
+

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <?!= include('style.css') ?>
+  </head>
+  <body>
+    <? 
+ 
+     Date.prototype.yyyymmdd = function() {
+         var mm = this.getMonth() + 1; // getMonth() is zero-based
+         var dd = this.getDate();
+    
+         return [this.getFullYear(),
+                 (mm>9 ? '' : '0') + mm,
+                 (dd>9 ? '' : '0') + dd
+                ].join('-');
+    };
+
+     var tmp_nr = 0
+     var MAX_ROWS=10
+     var rows_counter = 0
+     var start_table = false
+     var second_column = false
+     var style_2column = ""
+     var internal_counter = 0
+     for (var i=0; i < deny_data.length; i++) {
+         internal_counter++
+         var terr_nr = deny_data[i][0];
+         var date = deny_data[i][1];
+         var addr = deny_data[i][2];
+         
+         if (tmp_nr != terr_nr) {
+           tmp_nr = terr_nr
+           if (start_table) {
+             start_table = false
+             
+             for (var j=0; j < (MAX_ROWS-rows_counter); j++)
+             {
+              ?>
+                 <tr>
+                     <td class="date">&nbsp;a</td>
+                     <td class="address">&nbsp;</td>
+                 </tr>
+              <? 
+             }
+
+             ?> </table> <?
+             if (! second_column) {
+                   ?> </div> <?
+             }
+           }
+         rows_counter = 0
+         start_table = true
+             if (! second_column) {
+                 second_column = true
+                 style_2column = "second_column"
+                 ?> <div style="clear:both"> <?
+             } else {
+                 second_column = false
+                 style_2column = "second_column"
+                 
+             }
+            var date_to_format = ""
+            if (date instanceof Date) {
+                date_to_format = new Date(date).yyyymmdd();
+            }
+         ?>
+         
+         <table class="<?= style_2column ?>"> 
+             <thead>
+               <tr>
+                   <th colspan=2 class="title">Teren nr <?= terr_nr ?></th>
+               </tr>
+               <tr><th class="date">DATA</th>
+                   <th class="address">ADRES</th>
+               </tr>
+            </thead>
+           <tr>
+             <td class="date"><?= date_to_format ?></td>
+             <td class="address"><?= addr ?></td>
+           </tr>
+           <?
+           rows_counter++           
+           
+           if (i + 1 == deny_data.length) {
+              for (var j=0; j < (MAX_ROWS-rows_counter); j++)
+             {
+              ?>
+                 <tr>
+                     <td class="date">&nbsp;b</td>
+                     <td class="address">&nbsp;</td>
+                 </tr>
+              <? 
+             }
+             ?> </table> <?
+           }
+           
+         } else {
+            var date_to_format = ""
+            if (date instanceof Date) {
+                date_to_format = new Date(date).yyyymmdd();
+            }
+           ?>
+           <tr>
+             <td class="date"><?= date_to_format ?></td>
+             <td class="address"><?= addr ?></td>
+           </tr>
+           <?
+           rows_counter++
+           if (i + 1 == deny_data.length) {
+              for (var j=0; j < (MAX_ROWS-rows_counter); j++)
+             {
+              ?>
+                 <tr>
+                     <td class="date">&nbsp;c</td>
+                     <td class="address">&nbsp;</td>
+                 </tr>
+              <? 
+             }
+             ?> </table> <?
+           }
+           
+         }
+         
+     } ?>
+  </body>
+</html>
+
+
